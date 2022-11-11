@@ -1,26 +1,33 @@
 ---
 title: "Bioconductor Project"
+author: Hannah Hellmuth and Lindsey Ukishima
 format: html
 editor: visual
 ---
 
-## Quarto
+# Workflow: generegulation
 
-Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
+Citation: Bioconductor Package Maintainer (2022). *generegulation: Finding Candidate Binding Sites for Known Transcription Factors via Sequence Matching*. R package version 1.23.0, <https://www.bioconductor.org/help/workflows/generegulation/>.
 
-## Running Code
+#### Finding Candidate Binding Sites for Known Transcription Factors via Sequence Matching
 
-When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
+The binding of transcription factor proteins (TFs) to DNA promoter regions upstream of gene transcription start sites (TSSs) is one of the most important mechanisms by which gene expression, and thus many cellular processes, are controlled. Though in recent years many new kinds of data have become available for identifying transcription factor binding sites (TFBSs) \-- ChIP-seq and DNase I hypersensitivity regions among them \-- sequence matching continues to play an important role. In this workflow we demonstrate Bioconductor techniques for finding candidate TF binding sites in DNA sequence using the model organism Saccharomyces cerevisiae. The methods demonstrated here apply equally well to other organisms.
 
-```{r}
-1 + 1
-```
+### Installing the Package
 
-You can add options to executable code like this
+(For R version 4.2)
 
 ```{r}
-#| echo: false
-2 * 2
+if (!require("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+
+BiocManager::install("generegulation")
+library(generegulation)
 ```
 
-The `echo: false` option disables the printing of code (only output is displayed).
+### Documentation
+
+```{r}
+
+browseVignettes("generegulation")
+```
