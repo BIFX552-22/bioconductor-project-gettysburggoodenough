@@ -31,3 +31,11 @@ library(generegulation)
 
 browseVignettes("generegulation")
 ```
+
+### Data
+
+### Methods
+
+### Results
+
+### Conclusion
