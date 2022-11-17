@@ -34,6 +34,30 @@ browseVignettes("generegulation")
 
 ### Data
 
+This workflow is looking at a set of seven widely co-expressed and highly correlated Saccharomyces cerevisiae genes: DAL1, DAL2, DAL4, DAL5, DAL7, DAL80, and GAP1. These seven genes have been found to be correlated with Nitrogen Catabolite Repression (NCR) which is the way yeast cells switch between using rich nitrogen sources and poor nitrogen sources. The data used in this workflow comes from [Allocco et al](http://www.biomedcentral.com/1471-2105/5/18), 2004, \"Quantifying the relationship between co-expression, co-regulation and gene function\", which looks at the gene expression across 200 conditions.
+
+### Workflow
+
+Packages in this workflow:
+
+-   MotifDb
+
+-   S4Vectors
+
+-   seqLogo
+
+-   motifStack
+
+-   Biostrings
+
+-   GenomicFeatures
+
+-   org.Sc.sgd.db
+
+-   BSgenome.Scerevisiae.UCSC.sacCer3
+
+-   TxDb.Scerevisiae.UCSC.sacCer3.sgdGene
+
 ### Methods
 
 ### Results
