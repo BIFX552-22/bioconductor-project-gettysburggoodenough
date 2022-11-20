@@ -59,29 +59,41 @@ This workflow is looking at a set of seven widely co-expressed and highly correl
 
 Packages in this workflow:
 
--   MotifDb
+-   MotifDb - provides numeric matrices of DNA-binding sequences which are accompanied by information about the matrix.
 
--   S4Vectors
+-   S4Vectors - allows you to represent vector-like or list-like objects as S4 objects
 
--   seqLogo
+-   seqLogo - creates a visual representation of sequence alignments. The height of the stack at each position represents the amount of content and the of each letter represents the frequency of the amino or nucleic acid.
 
--   motifStack
+-   motifStack - allows you to visually represent the alignment of multiple sequence motifs
 
--   Biostrings
+-   Biostrings - contains multiple functions that allow for manipulation of a large sequence or sets of sequences
 
--   GenomicFeatures
+-   GenomicFeatures - retrieves information about a transcript from USCS Genome Browser and BioMart databases
 
--   org.Sc.sgd.db
+-   org.Sc.sgd.db - annotated information about Saccharomyces cerevisiae genome
 
--   BSgenome.Scerevisiae.UCSC.sacCer3
+-   BSgenome.Scerevisiae.UCSC.sacCer3 - full Saccharomyces cerevisiae genome from USCS stored as Biostring objects
 
--   TxDb.Scerevisiae.UCSC.sacCer3.sgdGene
+-   TxDb.Scerevisiae.UCSC.sacCer3.sgdGene - loads the Saccharomyces cerevisiae genome as TxDb objects
 
 ### Methods
 
+-   Overview of the analysis methods - "What" did you do?
+
+-   Tools that you used (programs, packages, etc\...) - "How" did you do it?
+
+-   Take home highlights - "Why" did you do it that way?
+
 ### Results
 
+-   What interesting things did you learn from the data?
+
 ### Conclusion
+
+-   What interesting things / skills did you learn?
+
+-   What challenges did you come across?
 
 ```{r}
 query(MotifDb, "DAL80") 
@@ -104,23 +116,16 @@ matchPWM(pcm.dal80.jaspar, unlist(promoter.dal1)[[1]], "90%")
 
 ```{r}
 dal80.jaspar <- query(MotifDb,"DAL80")[[5]]
-dal80.scertf <-query(MotifDb,"DAL80")[[6
-```
-
-```{r}
-
-```
-
-``` {]]}
+dal80.scertf <-query(MotifDb,"DAL80")[[6]]
 seqLogo(dal80.jaspar)
 seqLogo(dal80.scertf)
 ```
 
 ```{r}
 pfm.dal80.jaspar <- new("pfm", mat=query(MotifDb, "dal80")[[5]], 
-                        name="DAL80-JASPAR")
+                    name="DAL80-JASPAR")
 pfm.dal80.scertf <- new("pfm", mat=query(MotifDb, "dal80")[[6]], 
-                        name="DAL80-ScerTF")
+                    name="DAL80-ScerTF")
 plotMotifLogoStack(DNAmotifAlignment(c(pfm.dal80.scertf, pfm.dal80.jaspar)))
 ```
 
