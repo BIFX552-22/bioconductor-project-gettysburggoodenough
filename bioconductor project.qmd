@@ -53,7 +53,7 @@ browseVignettes("generegulation")
 
 ### Data
 
-This workflow is looking at a set of seven widely co-expressed and highly correlated Saccharomyces cerevisiae genes: DAL1, DAL2, DAL4, DAL5, DAL7, DAL80, and GAP1. These seven genes have been found to be correlated with Nitrogen Catabolite Repression (NCR) which is the way yeast cells switch between using rich nitrogen sources and poor nitrogen sources. The data used in this workflow comes from [Allocco et al](http://www.biomedcentral.com/1471-2105/5/18), 2004, "Quantifying the relationship between co-expression, co-regulation and gene function", which looks at the gene expression across 200 conditions.
+This workflow is looking at a set of seven widely co-expressed and highly correlated Saccharomyces cerevisiae genes: DAL1, DAL2, DAL4, DAL5, DAL7, DAL80, and GAP1. These seven genes have been found to be correlated with Nitrogen Catabolite Repression (NCR) which is the way yeast cells switch between using rich nitrogen sources and poor nitrogen sources. The expression of NCR is determined by the actions of four DNA-binding GATA factors. One of the key factors, Gat1, is dependent on the negative GATA transcription factor, DAL80, for the NCR gene expression. It is possible that the DAL80 represses the expression of Gat1 by inhibiting it from binding, thus repressing NCR gene transcription. This workflow demonstrates how to find binding sites for known transcription factors by using sequence matching in Bioconductor. The data used in this workflow comes from [Allocco et al](http://www.biomedcentral.com/1471-2105/5/18), 2004, "Quantifying the relationship between co-expression, co-regulation and gene function", which looks at the gene expression across 200 conditions.
 
 ### Workflow
 
@@ -79,20 +79,13 @@ Packages in this workflow:
 
 ### Methods
 
-<<<<<<< HEAD
 -   Overview of the analysis methods - "What" did you do?
 
 -   Tools that you used (programs, packages, etc\...) - "How" did you do it?
 
 -   Take home highlights - "Why" did you do it that way?
 
-### Results
-
--   What interesting things did you learn from the data?
-
-### Conclusion
-=======
-##### Minimal Example
+### Minimal Example
 
 Query function is a general search tool that returns matrices whose metadata in any column is matched by the query string (`?query`).
 
@@ -101,11 +94,6 @@ Query function is a general search tool that returns matrices whose metadata in 
 Note that some of the extracted rows were modified from the source code because the source information has been updated (March 2022) since the code was published (October 2017).
 
 This minimal example seeks to find matches for the JASPAR DAL80 motif in the DAL1 promoter.
->>>>>>> main
-
--   What interesting things / skills did you learn?
-
--   What challenges did you come across?
 
 ```{r}
 query(MotifDb, "DAL80") 
@@ -132,16 +120,16 @@ pcm.dal80.jaspar <- round(100 * pfm.dal80.jaspar)
 matchPWM(pcm.dal80.jaspar, unlist(promoter.dal1)[[1]], "90%")
 ```
 
-##### Extended Example
+### Extended Example
 
 In the extended example, they start by searching the MotifDb for the DAL80 motif, then assigns a variable to the motif extracted from the JASPAR source and to the ScerTF source.
 
 ```{r}
-<<<<<<< HEAD
+
 dal80.jaspar <- query(MotifDb,"DAL80")[[5]]
 dal80.scertf <-query(MotifDb,"DAL80")[[6]]
 seqLogo(dal80.jaspar)
-=======
+
 dal80.jaspar <- query(MotifDb,"DAL80")[[1]]
 dal80.scertf <-query(MotifDb,"DAL80")[[6]]
 ```
@@ -153,20 +141,19 @@ seqLogo(dal80.jaspar)
 ```
 
 ```{r}
->>>>>>> main
+
 seqLogo(dal80.scertf)
 ```
 
 With some manipulation using the motifStack package, these motifs can be viewed in the same figure.
 
 ```{r}
-<<<<<<< HEAD
 pfm.dal80.jaspar <- new("pfm", mat=query(MotifDb, "dal80")[[5]], 
                     name="DAL80-JASPAR")
-=======
+
 pfm.dal80.jaspar <- new("pfm", mat=query(MotifDb, "dal80")[[1]], 
                         name="DAL80-JASPAR")
->>>>>>> main
+
 pfm.dal80.scertf <- new("pfm", mat=query(MotifDb, "dal80")[[6]], 
                     name="DAL80-ScerTF")
 plotMotifLogoStack(DNAmotifAlignment(c(pfm.dal80.scertf, pfm.dal80.jaspar)))
@@ -174,7 +161,7 @@ plotMotifLogoStack(DNAmotifAlignment(c(pfm.dal80.scertf, pfm.dal80.jaspar)))
 
 Of these two, the JASPAR motif has more detail, but the ScerTF motif is more recently published. ScerTF has a reputation for careful yeast-specific curation. The scientists chose to use the ScerTF motif.
 
-Georis et al mention that DAL80 \"competes with Gat1 for binding\" -- suggesting that they would have highly similar motifs. MotifDb has 3 entries for GAT1:
+Georis et al mention that DAL80 "competes with Gat1 for binding" -- suggesting that they would have highly similar motifs. MotifDb has 3 entries for GAT1:
 
 ```{r}
 query(MotifDb, "gat1")
@@ -237,7 +224,7 @@ promoter.seqs <- getPromoterSeq(grl, Scerevisiae, upstream=1000,
                                 downstream=0)
 ```
 
-We will next search for a match of the motif to the first of these sequences, the promoter for DAL1. Note that here, and below, we use a 90% \"min.score\" when we call matchPWM. This high minimum match score seems reasonable given the relative absence of variability in DAL80\'s PFM:
+We will next search for a match of the motif to the first of these sequences, the promoter for DAL1. Note that here, and below, we use a 90% "min.score" when we call matchPWM. This high minimum match score seems reasonable given the relative absence of variability in DAL80's PFM:
 
 ```{r}
 pfm.dal80.scertf
@@ -308,5 +295,7 @@ ncol(pcm.gat1.scertf)
 As we can see, the dal80.scertf motif only has five bases, but the gat1.jaspar motif is longer (8 bases) and more complex. The non-GATAA motif from gat1.scertf has fewer matches, but this may be due to chance, but this could be found by searching the promoters of randomly selected genes for the distribution of the motif.
 
 ### Results
+
+Using the tools of the Bioconductor "generegulation" package, this workflow was able to show, in multiple ways, that both Gat1 and DAL80 have the GATAA motif. This may suggest that they are indeed competing for the binding site, thus repressing Gat1 expression, which in turn represses NCR gene tanscription. This exploration also shows that Gat1 has at least two very different binding motifs.
 
 ### Conclusion
