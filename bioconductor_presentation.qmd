@@ -1,7 +1,7 @@
 ---
-title: "Bioconductor Project"
-author: Hannah Hellmuth and Lindsey Ukishima
-format: html
+title: "Bioconductor Presentation"
+author: "Hannah Hellmuth and Lindsey Ukishima"
+format: revealjs
 editor: visual
 ---
 
@@ -9,26 +9,15 @@ editor: visual
 
 Citation: Bioconductor Package Maintainer (2022). *generegulation: Finding Candidate Binding Sites for Known Transcription Factors via Sequence Matching*. R package version 1.23.0, <https://www.bioconductor.org/help/workflows/generegulation/>.
 
-#### Finding Candidate Binding Sites for Known Transcription Factors via Sequence Matching
+#### Study Goal: 
 
-The binding of transcription factor proteins (TFs) to DNA promoter regions upstream of gene transcription start sites (TSSs) is one of the most important mechanisms by which gene expression, and thus many cellular processes, are controlled. Though in recent years many new kinds of data have become available for identifying transcription factor binding sites (TFBSs) \-- ChIP-seq and DNase I hypersensitivity regions among them \-- sequence matching continues to play an important role. In this workflow we demonstrate Bioconductor techniques for finding candidate TF binding sites in DNA sequence using the model organism Saccharomyces cerevisiae. The methods demonstrated here apply equally well to other organisms.
+-   Finding Candidate Binding Sites for Known Transcription Factors (TF) via Sequence Matching
 
-### Installing the Package
+-   Important mechanism for gene expression - many cellular processes controlled
 
-(For R version 4.2)
+-   Workflow demonstrates Bioconductor techniques for finding potential TF binding sites in DNA sequences
 
-```{r}
-if (!require("BiocManager", quietly = TRUE))
-    install.packages("BiocManager")
-
-BiocManager::install("generegulation")
-
-
-BiocManager::install(c("MotifDb",  "GenomicFeatures", 
-           "TxDb.Scerevisiae.UCSC.sacCer3.sgdGene",
-           "org.Sc.sgd.db", "BSgenome.Scerevisiae.UCSC.sacCer3",
-           "motifStack", "seqLogo"))
-```
+-   Used *Saccharomyces cerevisiae* (yeast)
 
 ```{r}
 library(BiocManager)
@@ -44,16 +33,25 @@ library(BSgenome.Scerevisiae.UCSC.sacCer3)
 library(TxDb.Scerevisiae.UCSC.sacCer3.sgdGene)
 ```
 
-### Documentation
-
-```{r}
-
-browseVignettes("generegulation")
-```
-
 ### Data
 
-This workflow is looking at a set of seven widely co-expressed and highly correlated Saccharomyces cerevisiae genes: DAL1, DAL2, DAL4, DAL5, DAL7, DAL80, and GAP1. These seven genes have been found to be correlated with Nitrogen Catabolite Repression (NCR) which is the way yeast cells switch between using rich nitrogen sources and poor nitrogen sources. The expression of NCR is determined by the actions of four DNA-binding GATA factors. One of the key factors, Gat1, is dependent on the negative GATA transcription factor, DAL80, for the NCR gene expression. It is possible that the DAL80 represses the expression of Gat1 by inhibiting it from binding, thus repressing NCR gene transcription. This workflow demonstrates how to find binding sites for known transcription factors by using sequence matching in Bioconductor. The data used in this workflow comes from [Allocco et al](http://www.biomedcentral.com/1471-2105/5/18), 2004, "Quantifying the relationship between co-expression, co-regulation and gene function", which looks at the gene expression across 200 conditions.
+The data used in this workflow comes from [Allocco et al](http://www.biomedcentral.com/1471-2105/5/18), 2004, "Quantifying the relationship between co-expression, co-regulation and gene function", which looks at the gene expression across 200 conditions.
+
+-   Set of seven widely co-expressed and correlated s. cerevisiae genes: DAL1, DAL2, DAL4, DAL5, DAL7, DAL80, and GAP1
+
+    ![](images/paste-491090A1.png){width="406"}
+
+-   Genes correlated with Nitrogen Catabolite Repression (NCR)
+
+    -   How yeast switch between using nitrogen rich to nitrogen poor sources
+
+-   NCR expression determined by 4 DNA-binding GATA factors
+
+    -   Gat1: dependent on negative GATA TF, DAL80
+
+    -   DAL80 may repress expression of Gat1 by inhibiting it from binding & repressing NCR transcription
+
+Note that some of the extracted rows were modified from the source code because the source information has been updated (March 2022) since the code was published (October 2017).
 
 ### Workflow
 
@@ -77,23 +75,13 @@ Packages in this workflow:
 
 -   TxDb.Scerevisiae.UCSC.sacCer3.sgdGene - loads the Saccharomyces cerevisiae genome as TxDb objects
 
-### Methods
-
--   Overview of the analysis methods - "What" did you do?
-
--   Tools that you used (programs, packages, etc\...) - "How" did you do it?
-
--   Take home highlights - "Why" did you do it that way?
-
 ### Minimal Example
 
-Query function is a general search tool that returns matrices whose metadata in any column is matched by the query string (`?query`).
-
-`MotifDb` is "an annotated collection of DNA-binding sequence motifs" containing about "2000 position frequency matrices (pfm) collected from public sources, with accompanying metadata and search and export capabilities." The matrices are gathered from six public sources - FlyFactorSurvey, hPDI, JASPAR_CORE, jolma2013, ScerTF, stamlab, UniPROBE, and cisbp 1.02 - for five organisms: hsapiens, Dmelanogaster, Scerevisiae, Mmusculus, Athaliana, Celegans, and other.
-
-Note that some of the extracted rows were modified from the source code because the source information has been updated (March 2022) since the code was published (October 2017).
-
 This minimal example seeks to find matches for the JASPAR DAL80 motif in the DAL1 promoter.
+
+`query`: general search tool that returns matrices whose metadata in any column is matched by the query string.
+
+The matrices are gathered using `MotifDb` from six public sources - FlyFactorSurvey, hPDI, JASPAR_CORE, jolma2013, ScerTF, stamlab, UniPROBE, and cisbp 1.02 - for five organisms: hsapiens, Dmelanogaster, Scerevisiae, Mmusculus, Athaliana, Celegans, and other.
 
 ```{r}
 query(MotifDb, "DAL80") 
