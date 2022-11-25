@@ -79,9 +79,11 @@ Packages in this workflow:
 
 This minimal example seeks to find matches for the JASPAR DAL80 motif in the DAL1 promoter.
 
-`query`: general search tool that returns matrices whose metadata in any column is matched by the query string.
-
 The matrices are gathered using `MotifDb` from six public sources - FlyFactorSurvey, hPDI, JASPAR_CORE, jolma2013, ScerTF, stamlab, UniPROBE, and cisbp 1.02 - for five organisms: hsapiens, Dmelanogaster, Scerevisiae, Mmusculus, Athaliana, Celegans, and other.
+
+### Visualizing Matches
+
+`query`: general search tool that returns matrices whose metadata in any column is matched by the query string.
 
 ```{r}
 query(MotifDb, "DAL80") 
