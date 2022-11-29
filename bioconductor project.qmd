@@ -296,6 +296,10 @@ As we can see, the dal80.scertf motif only has five bases, but the gat1.jaspar m
 
 ### Results
 
-Using the tools of the Bioconductor "generegulation" package, this workflow was able to show, in multiple ways, that both Gat1 and DAL80 have the GATAA motif. This may suggest that they are indeed competing for the binding site, thus repressing Gat1 expression, which in turn represses NCR gene tanscription. This exploration also shows that Gat1 has at least two very different binding motifs.
+Using the tools of the Bioconductor "generegulation" package, this workflow was able to show, in multiple ways, that both Gat1 and DAL80 have the GATAA motif. This may suggest that they are indeed competing for the binding site, thus repressing Gat1 expression, which in turn represses NCR gene tanscription.
+
+This exploration also shows that Gat1 has at least two very different binding motifs. This begs the questions whether both of these binding motifs are functional and if this means there are two different binding sites.
 
 ### Conclusion
+
+The "generegulation" workflow was very interesting because it had multiple new tools that allowed for the exploration of DNA sequences.
