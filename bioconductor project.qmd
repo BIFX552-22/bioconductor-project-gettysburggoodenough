@@ -302,4 +302,4 @@ This exploration also shows that Gat1 has at least two very different binding mo
 
 ### Conclusion
 
-The "generegulation" workflow was very interesting because it had multiple new tools that allowed for the exploration of DNA sequences.
+The "generegulation" workflow was very interesting because it had multiple new tools that allowed for the exploration of DNA sequences. This bioconductor package can provide insight into the regulation of cellular processes by identifying the candidate transcription factor binding sites in a sequence and allowing for the comparison of multiple sequences at once. The visualization tools in this package are very helpful because they show you not only what the position of each nucleic acid, but also the amount of content at that position and the frequency of the amino or nucleic acid at that position.
