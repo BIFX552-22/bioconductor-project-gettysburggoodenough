@@ -201,7 +201,6 @@ pfm.gat1.scertf <- query(MotifDb, "gat1")[[6]]
 pcm.gat1.scertf <- round(100 * pfm.gat1.scertf)
 ```
 
-<<<<<<< HEAD
 ![](images/paste-491090A1.png){width="406"}
 
 # Creating Necessary Lists 
@@ -209,7 +208,6 @@ pcm.gat1.scertf <- round(100 * pfm.gat1.scertf)
 Create a list of the seven genes from the DAL80 co-regulated subnetwork (displayed above - taken from [Bioconductor Vignette - generegulation](https://www.bioconductor.org/packages/release/workflows/vignettes/generegulation/inst/doc/generegulation.html#network)). Lookup their systematic names, which will be needed for the `transcriptsBy` function.
 =======
 ![](images/paste-491090A1.png){width="406"} #Creating Necessary Lists Create a list of the seven genes from the DAL80 co-regulated subnetwork (displayed above - taken from [Bioconductor Vignette - generegulation](https://www.bioconductor.org/packages/release/workflows/vignettes/generegulation/inst/doc/generegulation.html#network)). Lookup their systematic names, which will be needed for the `transcriptsBy` function.
->>>>>>> main
 
 ```{r}
 genes <- c("DAL1", "DAL2", "DAL4", "DAL5", "DAL7", "DAL80", "GAP1")
@@ -235,7 +233,6 @@ promoter.seqs <- getPromoterSeq(grl, Scerevisiae, upstream=1000,
 We will next search for a match of the motif to the first of these sequences, the promoter for DAL1. Note that here, and below, we use a 90% "min.score" when we call matchPWM. This high minimum match score seems reasonable given the relative absence of variability in DAL80's PFM:
 =======
 # Search for Match We will next search for a match of the motif to the first of these sequences, the promoter for DAL1. Note that here, and below, we use a 90% "min.score" when we call matchPWM. This high minimum match score seems reasonable given the relative absence of variability in DAL80's PFM:
->>>>>>> main
 
 ```{r}
 pfm.dal80.scertf
@@ -300,7 +297,6 @@ gat1.scertf  <- sapply(gat1.scertf.hits,  length)
 Finally, create a data.frame from this information:
 =======
 # Example Results Finally, create a data.frame from this information:
->>>>>>> main
 
 ```{r}
 tbl.gata     <- data.frame(gene=genes, dal80.scertf, gat1.jaspar, gat1.scertf)
