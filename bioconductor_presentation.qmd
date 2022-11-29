@@ -54,7 +54,7 @@ The data used in this workflow comes from [Allocco et al](http://www.biomedcentr
 Note that some of the extracted rows were modified from the source code because the source information has been updated (March 2022) since the code was published (October 2017).
 
 # Workflow
-##Packages in this workflow:
+## Packages in this workflow:
 
 -   MotifDb - provides numeric matrices of DNA-binding sequences which are accompanied by information about the matrix.
 
