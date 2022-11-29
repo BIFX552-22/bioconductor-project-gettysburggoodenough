@@ -54,8 +54,7 @@ The data used in this workflow comes from [Allocco et al](http://www.biomedcentr
 Note that some of the extracted rows were modified from the source code because the source information has been updated (March 2022) since the code was published (October 2017).
 
 # Workflow
-
-Packages in this workflow:
+##Packages in this workflow:
 
 -   MotifDb - provides numeric matrices of DNA-binding sequences which are accompanied by information about the matrix.
 
@@ -63,7 +62,7 @@ Packages in this workflow:
 
 -   seqLogo - creates a visual representation of sequence alignments. The height of the stack at each position represents the amount of content and the of each letter represents the frequency of the amino or nucleic acid.
 
-#Packages Continued:
+# Packages Continued:
 
 -   motifStack - allows you to visually represent the alignment of multiple sequence motifs
 
@@ -71,7 +70,7 @@ Packages in this workflow:
 
 -   GenomicFeatures - retrieves information about a transcript from USCS Genome Browser and BioMart databases
 
-#Packages Continued:
+# Packages Continued:
 
 -   org.Sc.sgd.db - annotated information about Saccharomyces cerevisiae genome
 
@@ -139,7 +138,7 @@ seqLogo(dal80.jaspar)
 seqLogo(dal80.scertf)
 ```
 
-#Stacked Graphs
+# Stacked Graphs
 
 With some manipulation using the motifStack package, these motifs can be viewed in the same figure.
 
@@ -157,7 +156,7 @@ plotMotifLogoStack(DNAmotifAlignment(c(pfm.dal80.scertf, pfm.dal80.jaspar)))
 
 Of these two, the JASPAR motif has more detail, but the ScerTF motif is more recently published. ScerTF has a reputation for careful yeast-specific curation. The scientists chose to use the ScerTF motif.
 
-#Gat1 vs DAL80
+# Gat1 vs DAL80
 
 Georis et al mention that DAL80 "competes with Gat1 for binding" -- suggesting that they would have highly similar motifs. MotifDb has 3 entries for GAT1:
 
@@ -181,7 +180,7 @@ plotMotifLogoStack(c(pfm.gat1.uniprobe, pfm.gat1.scertf, pfm.gat1.jaspar))
 
 It appears that Georis' claim is correct that DAL80 and GAT1 could compete for binding since the GAT1-JASPAR motif is similar to the DAL80 motif of **GATAA**. However, we can also see that the GAT1-ScerTF and GAT1-UniPROBE motifs differ in length, and are reverse compliments of the **GATAA** motif.
 
-#Matching Motifs
+# Matching Motifs
 
 To match the motifs in the promoter, the following steps must be completed:
 
@@ -202,9 +201,7 @@ pfm.gat1.scertf <- query(MotifDb, "gat1")[[6]]
 pcm.gat1.scertf <- round(100 * pfm.gat1.scertf)
 ```
 
-![](images/paste-491090A1.png){width="406"}
-#Creating Necessary Lists
-Create a list of the seven genes from the DAL80 co-regulated subnetwork (displayed above - taken from [Bioconductor Vignette - generegulation](https://www.bioconductor.org/packages/release/workflows/vignettes/generegulation/inst/doc/generegulation.html#network)). Lookup their systematic names, which will be needed for the `transcriptsBy` function.
+![](images/paste-491090A1.png){width="406"} #Creating Necessary Lists Create a list of the seven genes from the DAL80 co-regulated subnetwork (displayed above - taken from [Bioconductor Vignette - generegulation](https://www.bioconductor.org/packages/release/workflows/vignettes/generegulation/inst/doc/generegulation.html#network)). Lookup their systematic names, which will be needed for the `transcriptsBy` function.
 
 ```{r}
 genes <- c("DAL1", "DAL2", "DAL4", "DAL5", "DAL7", "DAL80", "GAP1")
@@ -224,8 +221,7 @@ promoter.seqs <- getPromoterSeq(grl, Scerevisiae, upstream=1000,
                                 downstream=0)
 ```
 
-#Search for Match
-We will next search for a match of the motif to the first of these sequences, the promoter for DAL1. Note that here, and below, we use a 90% "min.score" when we call matchPWM. This high minimum match score seems reasonable given the relative absence of variability in DAL80's PFM:
+# Search for Match We will next search for a match of the motif to the first of these sequences, the promoter for DAL1. Note that here, and below, we use a 90% "min.score" when we call matchPWM. This high minimum match score seems reasonable given the relative absence of variability in DAL80's PFM:
 
 ```{r}
 pfm.dal80.scertf
@@ -234,7 +230,7 @@ print (class(promoter.seqs))
 
 The **GATAA** pattern is a very strong signal in this motif.
 
-#Restructuring
+# Restructuring
 
 Note that some restructuring is needed for us to use the results of **getPromoterSeqs** as an argument to **matchPWM**. We call the **getPromoterSeq** method with a GRangesList, which contains a unique set of genomic ranges, representing transcript coordinates, for each of several genes. The corresponding result is a **DNAStringSetList** in which there is one DNAStringSet (essentially a list of DNAStrings) for each gene in the input list. Both of these variables are therefore lists of lists, in which the outer list is named with genes, and the inner lists are per-transcript coordinates or DNA strings.
 
@@ -245,7 +241,7 @@ promoter.seqs <- unlist(promoter.seqs)
 print (class(promoter.seqs))
 ```
 
-#See Matches
+# See Matches
 
 Once we have the correct format of the sequences, we can then see the matches of the motifs to the sequences.
 
@@ -263,7 +259,7 @@ pwm.hits <- sapply(promoter.seqs,
                          matchPWM(pcm.dal80.scertf, pseq, min.score="90%"))
 ```
 
-#Summary
+# Summary
 
 And we can summarize the motif hits for each of the three motifs (dal80.scertf, gat1.jaspar, gat1.scertf) by creating a data.frame of counts, by gene and motif. First, determine the hits:
 
@@ -284,8 +280,7 @@ gat1.jaspar  <- sapply(gat1.jaspar.hits,  length)
 gat1.scertf  <- sapply(gat1.scertf.hits,  length)
 ```
 
-#Example Results
-Finally, create a data.frame from this information:
+# Example Results Finally, create a data.frame from this information:
 
 ```{r}
 tbl.gata     <- data.frame(gene=genes, dal80.scertf, gat1.jaspar, gat1.scertf)
@@ -304,6 +299,6 @@ As we can see, the dal80.scertf motif only has five bases, but the gat1.jaspar m
 
 # Results
 
-Using the tools of the Bioconductor "generegulation" package, this workflow was able to show, in multiple ways, that both Gat1 and DAL80 have the GATAA motif. This may suggest that they are indeed competing for the binding site, thus repressing Gat1 expression, which in turn represses NCR gene tanscription. This exploration also shows that Gat1 has at least two very different binding motifs.
+Using the tools of the Bioconductor "generegulation" package, this workflow was able to show, in multiple ways, that both Gat1 and DAL80 have the GATAA motif. This may suggest that they are indeed competing for the binding site, thus repressing Gat1 expression, which in turn represses NCR gene transcription. This exploration also shows that Gat1 has at least two very different binding motifs.
 
 # Conclusion
