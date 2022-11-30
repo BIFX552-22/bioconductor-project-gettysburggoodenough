@@ -23,6 +23,70 @@
     div.column{display: inline-block; vertical-align: top; width: 50%;}
     div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
     ul.task-list{list-style: none;}
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      { color: #003b4f; background-color: #f1f3f5; }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span { color: #003b4f; } /* Normal */
+    code span.al { color: #ad0000; } /* Alert */
+    code span.an { color: #5e5e5e; } /* Annotation */
+    code span.at { color: #657422; } /* Attribute */
+    code span.bn { color: #ad0000; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #003b4f; } /* ControlFlow */
+    code span.ch { color: #20794d; } /* Char */
+    code span.cn { color: #8f5902; } /* Constant */
+    code span.co { color: #5e5e5e; } /* Comment */
+    code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
+    code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
+    code span.dt { color: #ad0000; } /* DataType */
+    code span.dv { color: #ad0000; } /* DecVal */
+    code span.er { color: #ad0000; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #ad0000; } /* Float */
+    code span.fu { color: #4758ab; } /* Function */
+    code span.im { color: #00769e; } /* Import */
+    code span.in { color: #5e5e5e; } /* Information */
+    code span.kw { color: #003b4f; } /* Keyword */
+    code span.op { color: #5e5e5e; } /* Operator */
+    code span.ot { color: #003b4f; } /* Other */
+    code span.pp { color: #ad0000; } /* Preprocessor */
+    code span.sc { color: #5e5e5e; } /* SpecialChar */
+    code span.ss { color: #20794d; } /* SpecialString */
+    code span.st { color: #20794d; } /* String */
+    code span.va { color: #111111; } /* Variable */
+    code span.vs { color: #20794d; } /* VerbatimString */
+    code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
   <link rel="stylesheet" href="bioconductor_presentation_files/libs/revealjs/dist/theme/quarto.css" id="theme">
   <link href="bioconductor_presentation_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
@@ -237,6 +301,7 @@
     }
     .reveal .slide:not(.center) {
       height: 100%;
+      overflow-y: auto;
     }
     .reveal .slide.scrollable {
       overflow-y: auto;
@@ -347,6 +412,12 @@
 <ul>
 <li><p>Set of seven widely co-expressed and correlated s. cerevisiae genes: DAL1, DAL2, DAL4, DAL5, DAL7, DAL80, and GAP1</p>
 <p><img data-src="images/paste-491090A1.png" width="406"></p></li>
+</ul>
+</section>
+
+<section id="data-1" class="title-slide slide level1 center">
+<h1>Data</h1>
+<ul>
 <li><p>Genes correlated with Nitrogen Catabolite Repression (NCR)</p>
 <ul>
 <li>How yeast switch between using nitrogen rich to nitrogen poor sources</li>
@@ -362,19 +433,29 @@
 
 <section id="workflow" class="title-slide slide level1 center">
 <h1>Workflow</h1>
-<p>Packages in this workflow:</p>
+
+</section>
+
+<section id="packages-in-this-workflow" class="title-slide slide level1 center">
+<h1>Packages in this workflow:</h1>
 <ul>
 <li><p>MotifDb - provides numeric matrices of DNA-binding sequences which are accompanied by information about the matrix.</p></li>
 <li><p>S4Vectors - allows you to represent vector-like or list-like objects as S4 objects</p></li>
 <li><p>seqLogo - creates a visual representation of sequence alignments. The height of the stack at each position represents the amount of content and the of each letter represents the frequency of the amino or nucleic acid.</p></li>
 </ul>
-<p>#Packages Continued:</p>
+</section>
+
+<section id="packages-continued" class="title-slide slide level1 center">
+<h1>Packages Continued:</h1>
 <ul>
 <li><p>motifStack - allows you to visually represent the alignment of multiple sequence motifs</p></li>
 <li><p>Biostrings - contains multiple functions that allow for manipulation of a large sequence or sets of sequences</p></li>
 <li><p>GenomicFeatures - retrieves information about a transcript from USCS Genome Browser and BioMart databases</p></li>
 </ul>
-<p>#Packages Continued:</p>
+</section>
+
+<section id="packages-continued-1" class="title-slide slide level1 center">
+<h1>Packages Continued:</h1>
 <ul>
 <li><p>org.Sc.sgd.db - annotated information about Saccharomyces cerevisiae genome</p></li>
 <li><p>BSgenome.Scerevisiae.UCSC.sacCer3 - full Saccharomyces cerevisiae genome from USCS stored as Biostring objects</p></li>
@@ -414,7 +495,11 @@ Scerevisiae-ScerTF-DAL80-harbison </code></pre>
 </div>
 <p>To visualize the frequency of the bases at each position, the <code>seqLogo</code> function is used.</p>
 
-<img data-src="bioconductor_presentation_files/figure-revealjs/unnamed-chunk-3-1.png" width="960" class="r-stretch"><p>The <code>transcriptsBy</code> function is used to extract genomic features of a given type grouped based on some other genomic feature. In this example, it takes a TxDb obeject (TxDb class is used to store transcript annotations), and groups it by gene.</p>
+<img data-src="bioconductor_presentation_files/figure-revealjs/unnamed-chunk-3-1.png" width="960" class="r-stretch"></section>
+
+<section id="visualizing-matches-1" class="title-slide slide level1 center">
+<h1>Visualizing Matches</h1>
+<p>The <code>transcriptsBy</code> function is used to extract genomic features of a given type grouped based on some other genomic feature. In this example, it takes a TxDb obeject (TxDb class is used to store transcript annotations), and groups it by gene.</p>
 <p>The <code>getpromoterSeq</code> function is used to search for the promoter in the upstream region. The PCM variable indicates the percentage of each base in the region. <code>matchPWM</code> creates a position weight matrix taking the PCM variable as the weight matrix, the promoter region as the subject sequence, and the <code>min.score</code> of 90% - which is the minimum score for counting a match. The final output includes the subject sequence and the locations of the query sequence.</p>
 <div class="cell">
 <div class="cell-output cell-output-stdout">
@@ -447,15 +532,17 @@ views:
 <p><img data-src="bioconductor_presentation_files/figure-revealjs/unnamed-chunk-7-1.png" width="960"></p>
 </div>
 </div>
-<p>#Stacked Graphs</p>
+</section>
+
+<section id="stacked-graphs" class="title-slide slide level1 center">
+<h1>Stacked Graphs</h1>
 <p>With some manipulation using the motifStack package, these motifs can be viewed in the same figure.</p>
-<div class="cell">
-<div class="cell-output-display">
-<p><img data-src="bioconductor_presentation_files/figure-revealjs/unnamed-chunk-8-1.png" width="960"></p>
-</div>
-</div>
-<p>Of these two, the JASPAR motif has more detail, but the ScerTF motif is more recently published. ScerTF has a reputation for careful yeast-specific curation. The scientists chose to use the ScerTF motif.</p>
-<p>#Gat1 vs DAL80</p>
+
+<img data-src="bioconductor_presentation_files/figure-revealjs/unnamed-chunk-8-1.png" width="960" class="r-stretch"><p>Of these two, the JASPAR motif has more detail, but the ScerTF motif is more recently published. ScerTF has a reputation for careful yeast-specific curation. The scientists chose to use the ScerTF motif.</p>
+</section>
+
+<section id="gat1-vs-dal80" class="title-slide slide level1 center">
+<h1>Gat1 vs DAL80</h1>
 <p>Georis et al mention that DAL80 “competes with Gat1 for binding” – suggesting that they would have highly similar motifs. MotifDb has 3 entries for GAT1:</p>
 <div class="cell">
 <div class="cell-output cell-output-stdout">
@@ -480,46 +567,40 @@ Scerevisiae-ScerTF-GAT1-zhu
 Scerevisiae-UniPROBE-Gat1.UP00287 </code></pre>
 </div>
 </div>
+</section>
+
+<section id="gat1-vs-dal80-1" class="title-slide slide level1 center">
+<h1>Gat1 vs DAL80</h1>
 <p>We can plot all three together to visualize the differences of the GAT1 motif between different sources.</p>
-<div class="cell">
-<div class="cell-output cell-output-stdout">
-<pre><code>MotifDb object of length 7
-| Created from downloaded public sources, last update: 2022-Mar-04
-| 7 position frequency matrices from 7 sources:
-|        JASPAR_2014:    1
-|        JASPAR_CORE:    1
-|         jaspar2016:    1
-|         jaspar2018:    1
-|         jaspar2022:    1
-|             ScerTF:    1
-|           UniPROBE:    1
-| 1 organism/s
-|        Scerevisiae:    7
-Scerevisiae-JASPAR_CORE-GAT1-MA0300.1 
-Scerevisiae-JASPAR_2014-GAT1-MA0300.1 
-Scerevisiae-jaspar2016-GAT1-MA0300.1 
-Scerevisiae-jaspar2018-GAT1-MA0300.1 
-Scerevisiae-jaspar2022-GAT1-MA0300.1 
-Scerevisiae-ScerTF-GAT1-zhu 
-Scerevisiae-UniPROBE-Gat1.UP00287 </code></pre>
-</div>
-<div class="cell-output-display">
-<p><img data-src="bioconductor_presentation_files/figure-revealjs/unnamed-chunk-10-1.png" width="960"></p>
-</div>
-</div>
+
+<img data-src="bioconductor_presentation_files/figure-revealjs/unnamed-chunk-10-1.png" width="960" class="r-stretch"></section>
+
+<section id="gat1-vs-dal80-2" class="title-slide slide level1 center">
+<h1>Gat1 vs DAL80</h1>
 <p>It appears that Georis’ claim is correct that DAL80 and GAT1 could compete for binding since the GAT1-JASPAR motif is similar to the DAL80 motif of <strong>GATAA</strong>. However, we can also see that the GAT1-ScerTF and GAT1-UniPROBE motifs differ in length, and are reverse compliments of the <strong>GATAA</strong> motif.</p>
-<p>#Matching Motifs</p>
+</section>
+
+<section id="matching-motifs" class="title-slide slide level1 center">
+<h1>Matching Motifs</h1>
 <p>To match the motifs in the promoter, the following steps must be completed:</p>
 <ol type="1">
 <li>Retrieve binding motif in PFM form of the transcription factor</li>
 <li>Retrieve the promoter region for the target sequences</li>
 <li>Identify the matches of the binding motif in the genes’ promoter regions</li>
 </ol>
+</section>
+
+<section id="matching-motifs-1" class="title-slide slide level1 center">
+<h1>Matching Motifs</h1>
 <p>They used three search motifs: one DAL80 and two GAT1. These motifs must be transformed so they can be matches using the <code>matchPWM</code> function. As we saw above, <code>MotifDb</code> returns as PFM with columns adding to 1, but <code>matchPWM</code> requires a PCM with all integer values. The frequency matrix can be transformed into a count matrix by scaling by a factor of 100 (i.e.&nbsp;converting from decimals to a percent out of 100).</p>
 <div class="cell">
 
 </div>
-<p><img data-src="images/paste-491090A1.png" width="406"> #Creating Necessary Lists Create a list of the seven genes from the DAL80 co-regulated subnetwork (displayed above - taken from <a href="https://www.bioconductor.org/packages/release/workflows/vignettes/generegulation/inst/doc/generegulation.html#network">Bioconductor Vignette - generegulation</a>). Lookup their systematic names, which will be needed for the <code>transcriptsBy</code> function.</p>
+
+<img data-src="images/paste-491090A1.png" width="406" class="r-stretch"></section>
+
+<section id="matching-motifs-2" class="title-slide slide level1 center">
+<h1>Matching Motifs</h1>
 <div class="cell">
 
 </div>
@@ -531,8 +612,13 @@ Scerevisiae-UniPROBE-Gat1.UP00287 </code></pre>
 <div class="cell">
 
 </div>
-<p>#Search for Match We will next search for a match of the motif to the first of these sequences, the promoter for DAL1. Note that here, and below, we use a 90% “min.score” when we call matchPWM. This high minimum match score seems reasonable given the relative absence of variability in DAL80’s PFM:</p>
+</section>
+
+<section id="search-for-match" class="title-slide slide level1 center">
+<h1>Search for Match</h1>
+<p>We will next search for a match of the motif to the first of these sequences, the promoter for DAL1. Note that here, and below, we use a 90% “min.score” when we call matchPWM. This high minimum match score seems reasonable given the relative absence of variability in DAL80’s PFM:</p>
 <div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a>pfm.dal80.scertf</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>           1          2          3          4          5
 A 0.01010101 0.96969697 0.01010101 0.96969697 0.96969697
@@ -540,6 +626,7 @@ C 0.01010101 0.01010101 0.01010101 0.01010101 0.01010101
 G 0.96969697 0.01010101 0.01010101 0.01010101 0.01010101
 T 0.01010101 0.01010101 0.96969697 0.01010101 0.01010101</code></pre>
 </div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="fu">print</span> (<span class="fu">class</span>(promoter.seqs))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "DNAStringSetList"
 attr(,"package")
@@ -547,17 +634,29 @@ attr(,"package")
 </div>
 </div>
 <p>The <strong>GATAA</strong> pattern is a very strong signal in this motif.</p>
-<p>#Restructuring</p>
+</section>
+
+<section id="restructuring" class="title-slide slide level1 center">
+<h1>Restructuring</h1>
 <p>Note that some restructuring is needed for us to use the results of <strong>getPromoterSeqs</strong> as an argument to <strong>matchPWM</strong>. We call the <strong>getPromoterSeq</strong> method with a GRangesList, which contains a unique set of genomic ranges, representing transcript coordinates, for each of several genes. The corresponding result is a <strong>DNAStringSetList</strong> in which there is one DNAStringSet (essentially a list of DNAStrings) for each gene in the input list. Both of these variables are therefore lists of lists, in which the outer list is named with genes, and the inner lists are per-transcript coordinates or DNA strings.</p>
+</section>
+
+<section id="restructuring-1" class="title-slide slide level1 center">
+<h1>Restructuring</h1>
 <p>Since we need DNA strings without that overarching by-gene-name structure, we call <strong>unlist</strong> to strip off that structure, leaving us with the desired DNAStringSet:</p>
 <div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a>promoter.seqs <span class="ot">&lt;-</span> <span class="fu">unlist</span>(promoter.seqs)</span>
+<span id="cb8-2"><a href="#cb8-2"></a><span class="fu">print</span> (<span class="fu">class</span>(promoter.seqs))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "DNAStringSet"
 attr(,"package")
 [1] "Biostrings"</code></pre>
 </div>
 </div>
-<p>#See Matches</p>
+</section>
+
+<section id="see-matches" class="title-slide slide level1 center">
+<h1>See Matches</h1>
 <p>Once we have the correct format of the sequences, we can then see the matches of the motifs to the sequences.</p>
 <div class="cell">
 <div class="cell-output cell-output-stdout">
@@ -570,20 +669,40 @@ views:
 </div>
 </div>
 <p>The close proximity of these two GATAA hits suggests that dimeric (similar or identical) DAL80, or some other GATAA-binding dimer, may bind DAL1.</p>
+</section>
+
+<section id="see-matches-1" class="title-slide slide level1 center">
+<h1>See Matches</h1>
 <p>All of the matches in the promoters of all seven genes to one binding motif may be found at once with this command:</p>
 <div class="cell">
-
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a>pwm.hits <span class="ot">&lt;-</span> <span class="fu">sapply</span>(promoter.seqs, </span>
+<span id="cb11-2"><a href="#cb11-2"></a>                      <span class="cf">function</span>(pseq) </span>
+<span id="cb11-3"><a href="#cb11-3"></a>                         <span class="fu">matchPWM</span>(pcm.dal80.scertf, pseq, <span class="at">min.score=</span><span class="st">"90%"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>#Summary</p>
+</section>
+
+<section id="summary" class="title-slide slide level1 center">
+<h1>Summary</h1>
 <p>And we can summarize the motif hits for each of the three motifs (dal80.scertf, gat1.jaspar, gat1.scertf) by creating a data.frame of counts, by gene and motif. First, determine the hits:</p>
 <div class="cell">
-
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a>dal80.scertf.hits <span class="ot">&lt;-</span> <span class="fu">sapply</span>(promoter.seqs, <span class="cf">function</span>(pseq) </span>
+<span id="cb12-2"><a href="#cb12-2"></a>                            <span class="fu">matchPWM</span>(pcm.dal80.scertf, pseq, <span class="at">min.score=</span><span class="st">"90%"</span>))</span>
+<span id="cb12-3"><a href="#cb12-3"></a>gat1.scertf.hits  <span class="ot">&lt;-</span> <span class="fu">sapply</span>(promoter.seqs, <span class="cf">function</span>(pseq) </span>
+<span id="cb12-4"><a href="#cb12-4"></a>                            <span class="fu">matchPWM</span>(pcm.gat1.scertf, pseq, <span class="at">min.score=</span><span class="st">"90%"</span>))</span>
+<span id="cb12-5"><a href="#cb12-5"></a>gat1.jaspar.hits  <span class="ot">&lt;-</span> <span class="fu">sapply</span>(promoter.seqs, <span class="cf">function</span>(pseq) </span>
+<span id="cb12-6"><a href="#cb12-6"></a>                            <span class="fu">matchPWM</span>(pcm.gat1.jaspar, pseq, <span class="at">min.score=</span><span class="st">"90%"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Now count their lengths:</p>
 <div class="cell">
-
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a>dal80.scertf <span class="ot">&lt;-</span> <span class="fu">sapply</span>(dal80.scertf.hits, length)</span>
+<span id="cb13-2"><a href="#cb13-2"></a>gat1.jaspar  <span class="ot">&lt;-</span> <span class="fu">sapply</span>(gat1.jaspar.hits,  length)</span>
+<span id="cb13-3"><a href="#cb13-3"></a>gat1.scertf  <span class="ot">&lt;-</span> <span class="fu">sapply</span>(gat1.scertf.hits,  length)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>#Example Results Finally, create a data.frame from this information:</p>
+</section>
+
+<section id="example-results" class="title-slide slide level1 center">
+<h1>Example Results</h1>
+<p>Finally, create a data.frame from this information:</p>
 <div class="cell">
 <div class="cell-output cell-output-stdout">
 <pre><code>                 gene dal80.scertf gat1.jaspar gat1.scertf
@@ -596,6 +715,10 @@ YKR034W.YKR034W DAL80            1           0           1
 YKR039W.YKR039W  GAP1            5           3           0</code></pre>
 </div>
 </div>
+</section>
+
+<section id="example-results-1" class="title-slide slide level1 center">
+<h1>Example Results</h1>
 <p>These values indicate the number of occurrences of the motif in each promoter sequence. It is pretty evident that the dal80.scertf motif has more hits than the other two, but why is that? Using the pcm tables which indicate the frequency of the bases (rows) at each position (columns), we can take the number of columns to find the length of each motif.</p>
 <div class="cell">
 <div class="cell-output cell-output-stdout">
@@ -613,7 +736,7 @@ YKR039W.YKR039W  GAP1            5           3           0</code></pre>
 
 <section id="results" class="title-slide slide level1 center">
 <h1>Results</h1>
-<p>Using the tools of the Bioconductor “generegulation” package, this workflow was able to show, in multiple ways, that both Gat1 and DAL80 have the GATAA motif. This may suggest that they are indeed competing for the binding site, thus repressing Gat1 expression, which in turn represses NCR gene tanscription. This exploration also shows that Gat1 has at least two very different binding motifs.</p>
+<p>Using the tools of the Bioconductor “generegulation” package, this workflow was able to show, in multiple ways, that both Gat1 and DAL80 have the GATAA motif. This may suggest that they are indeed competing for the binding site, thus repressing Gat1 expression, which in turn represses NCR gene transcription. This exploration also shows that Gat1 has at least two very different binding motifs.</p>
 </section>
 
 <section id="conclusion" class="title-slide slide level1 center">
@@ -648,13 +771,13 @@ YKR039W.YKR039W  GAP1            5           3           0</code></pre>
       Reveal.initialize({
 'controlsAuto': true,
 'previewLinksAuto': false,
-'smaller': false,
+'smaller': true,
 'pdfSeparateFragments': false,
 'autoAnimateEasing': "ease",
 'autoAnimateDuration': 1,
 'autoAnimateUnmatched': true,
 'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
-'smaller': false,
+'smaller': true,
  
         // Display controls in the bottom right corner
         controls: false,
