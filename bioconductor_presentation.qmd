@@ -54,7 +54,7 @@ The data used in this workflow comes from [Allocco et al](http://www.biomedcentr
 Note that some of the extracted rows were modified from the source code because the source information has been updated (March 2022) since the code was published (October 2017).
 
 # Workflow
-##Packages in this workflow:
+## Packages in this workflow:
 
 -   MotifDb - provides numeric matrices of DNA-binding sequences which are accompanied by information about the matrix.
 
@@ -201,6 +201,12 @@ pfm.gat1.scertf <- query(MotifDb, "gat1")[[6]]
 pcm.gat1.scertf <- round(100 * pfm.gat1.scertf)
 ```
 
+![](images/paste-491090A1.png){width="406"}
+
+# Creating Necessary Lists 
+
+Create a list of the seven genes from the DAL80 co-regulated subnetwork (displayed above - taken from [Bioconductor Vignette - generegulation](https://www.bioconductor.org/packages/release/workflows/vignettes/generegulation/inst/doc/generegulation.html#network)). Lookup their systematic names, which will be needed for the `transcriptsBy` function.
+=======
 ![](images/paste-491090A1.png){width="406"} #Creating Necessary Lists Create a list of the seven genes from the DAL80 co-regulated subnetwork (displayed above - taken from [Bioconductor Vignette - generegulation](https://www.bioconductor.org/packages/release/workflows/vignettes/generegulation/inst/doc/generegulation.html#network)). Lookup their systematic names, which will be needed for the `transcriptsBy` function.
 
 ```{r}
@@ -221,6 +227,11 @@ promoter.seqs <- getPromoterSeq(grl, Scerevisiae, upstream=1000,
                                 downstream=0)
 ```
 
+<<<<<<< HEAD
+# Search for Match
+
+We will next search for a match of the motif to the first of these sequences, the promoter for DAL1. Note that here, and below, we use a 90% "min.score" when we call matchPWM. This high minimum match score seems reasonable given the relative absence of variability in DAL80's PFM:
+=======
 # Search for Match We will next search for a match of the motif to the first of these sequences, the promoter for DAL1. Note that here, and below, we use a 90% "min.score" when we call matchPWM. This high minimum match score seems reasonable given the relative absence of variability in DAL80's PFM:
 
 ```{r}
@@ -280,6 +291,11 @@ gat1.jaspar  <- sapply(gat1.jaspar.hits,  length)
 gat1.scertf  <- sapply(gat1.scertf.hits,  length)
 ```
 
+<<<<<<< HEAD
+# Example Results 
+
+Finally, create a data.frame from this information:
+=======
 # Example Results Finally, create a data.frame from this information:
 
 ```{r}
