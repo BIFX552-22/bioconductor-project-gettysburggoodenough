@@ -125,13 +125,9 @@ matchPWM(pcm.dal80.jaspar, unlist(promoter.dal1)[[1]], "90%")
 In the extended example, they start by searching the MotifDb for the DAL80 motif, then assigns a variable to the motif extracted from the JASPAR source and to the ScerTF source.
 
 ```{r}
-
-dal80.jaspar <- query(MotifDb,"DAL80")[[5]]
-dal80.scertf <-query(MotifDb,"DAL80")[[6]]
-seqLogo(dal80.jaspar)
-
 dal80.jaspar <- query(MotifDb,"DAL80")[[1]]
 dal80.scertf <-query(MotifDb,"DAL80")[[6]]
+seqLogo(dal80.jaspar)
 ```
 
 How do these two motifs compare to each other? The seqLogo function can once again be used to visualize the regions, but only one graph can be created at a time.
@@ -145,7 +141,7 @@ seqLogo(dal80.jaspar)
 seqLogo(dal80.scertf)
 ```
 
-With some manipulation using the motifStack package, these motifs can be viewed in the same figure.
+With some manipulation using the package, these motifs can be viewed in the same figure.
 
 ```{r}
 pfm.dal80.jaspar <- new("pfm", mat=query(MotifDb, "dal80")[[5]], 
