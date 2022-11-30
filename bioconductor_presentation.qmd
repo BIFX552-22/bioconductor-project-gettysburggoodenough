@@ -1,5 +1,5 @@
 ---
-title: "Bioconductor Presentation"
+title: "Workflow: generegulation"
 author: "Hannah Hellmuth and Lindsey Ukishima"
 format:
   revealjs:
@@ -12,9 +12,9 @@ editor: visual
 
 Citation: Bioconductor Package Maintainer (2022). *generegulation: Finding Candidate Binding Sites for Known Transcription Factors via Sequence Matching*. R package version 1.23.0, <https://www.bioconductor.org/help/workflows/generegulation/>.
 
-# Study Goal:
+# Workflow:
 
--   Finding Candidate Binding Sites for Known Transcription Factors (TF) via Sequence Matching
+-   "Finding Candidate Binding Sites for Known Transcription Factors (TF) via Sequence Matching"
 
 -   Important mechanism for gene expression - many cellular processes controlled
 
@@ -36,34 +36,30 @@ library(BSgenome.Scerevisiae.UCSC.sacCer3)
 library(TxDb.Scerevisiae.UCSC.sacCer3.sgdGene)
 ```
 
-# Data 
+# Data
 
 The data used in this workflow comes from [Allocco et al](http://www.biomedcentral.com/1471-2105/5/18), 2004, "Quantifying the relationship between co-expression, co-regulation and gene function", which looks at the gene expression across 200 conditions.
 
 -   Set of seven widely co-expressed and correlated s. cerevisiae genes: DAL1, DAL2, DAL4, DAL5, DAL7, DAL80, and GAP1
 
     ![](images/paste-491090A1.png){width="406"}
-    
-# Data 
+
+# Data
 
 -   Genes correlated with Nitrogen Catabolite Repression (NCR)
 
     -   How yeast switch between using nitrogen rich to nitrogen poor sources
+    -   NCR restrains the yeast's ability to use poor nitrogen sources when there are rich ones available
 
 -   NCR expression determined by 4 DNA-binding GATA factors
 
-    -   Gat1: dependent on negative GATA TF, DAL80
+    -   Gat1: dependent on two negative GATA transcription factors, DAL80 and Gzf3
 
     -   DAL80 may repress expression of Gat1 by inhibiting it from binding & repressing NCR transcription
 
 Note that some of the extracted rows were modified from the source code because the source information has been updated (March 2022) since the code was published (October 2017).
 
-# Workflow
-<<<<<<< Updated upstream
-## Packages in this workflow:
-=======
 # Packages in this workflow:
->>>>>>> Stashed changes
 
 -   MotifDb - provides numeric matrices of DNA-binding sequences which are accompanied by information about the matrix.
 
@@ -87,278 +83,140 @@ Note that some of the extracted rows were modified from the source code because 
 
 -   TxDb.Scerevisiae.UCSC.sacCer3.sgdGene - loads the Saccharomyces cerevisiae genome as TxDb objects
 
-# Minimal Example
+# Method (The "What")
 
-This minimal example seeks to find matches for the JASPAR DAL80 motif in the DAL1 promoter.
+-   Compare transcription factor binding motif of DAL80 from different sources (ScerTF and JASPAR)
+    -   Choose to move forward with the data from ScerTF
+-   Compare TF binding motifs between Gat1 and DAL80 based on Georis et al. theory
+    -   Gat1 sources: JASPAR, ScerTF, and UniPROBE
 
-The matrices are gathered using `MotifDb` from six public sources - FlyFactorSurvey, hPDI, JASPAR_CORE, jolma2013, ScerTF, stamlab, UniPROBE, and cisbp 1.02 - for five organisms: hsapiens, Dmelanogaster, Scerevisiae, Mmusculus, Athaliana, Celegans, and other.
+    -   Choose to move forward with the data from JASPAR and ScerTF
+-   Confirm that DAL80 and Gat1 have the same "GATAA" binding motif
+-   Confirm using a Position Weight Matrix (PMW) that the seven yeast genes have the same promoter
+-   Using PMW, they also confirm that DAL80 and Gat1 have the same promoter sequence
 
-# Visualizing Matches 
+# Method (The "How")
 
-`query`: general search tool that returns matrices whose metadata in any column is matched by the query string.
+-   In order to visualize the TF binding motif of DAL80, they first used seqLogo, which provided a graph with the position number on the x-axis and the amount of content and the frequency of each nucleic acid at each position.
 
-```{r}
-query(MotifDb, "DAL80") 
-```
+    ```{r}
+    #| echo: true
+    pfm.dal80.jaspar <- query(MotifDb,"DAL80")[[1]]
+    seqLogo(pfm.dal80.jaspar)
+    ```
 
-To visualize the frequency of the bases at each position, the `seqLogo` function is used.
+-   Then, they used MotifDB and plotMotifLogoStack to visualize multiple motifs and their relationships to one another for DAL80 amongst the JASPAR and ScerTF sources.
 
-```{r}
-pfm.dal80.jaspar <- query(MotifDb,"DAL80")[[1]]
-seqLogo(pfm.dal80.jaspar)
-```
-
-# Visualizing Matches
-
-The `transcriptsBy` function is used to extract genomic features of a given type grouped based on some other genomic feature. In this example, it takes a TxDb obeject (TxDb class is used to store transcript annotations), and groups it by gene.
-
-The `getpromoterSeq` function is used to search for the promoter in the upstream region. The PCM variable indicates the percentage of each base in the region. `matchPWM` creates a position weight matrix taking the PCM variable as the weight matrix, the promoter region as the subject sequence, and the `min.score` of 90% - which is the minimum score for counting a match. The final output includes the subject sequence and the locations of the query sequence.
-
-```{r}
-dal1 <- "YIR027C"
-chromosomal.loc <- 
-  transcriptsBy(TxDb.Scerevisiae.UCSC.sacCer3.sgdGene, by="gene") [dal1]
-promoter.dal1 <- 
-  getPromoterSeq(chromosomal.loc, Scerevisiae, upstream=1000, downstream=0)
-pcm.dal80.jaspar <- round(100 * pfm.dal80.jaspar)
-matchPWM(pcm.dal80.jaspar, unlist(promoter.dal1)[[1]], "90%")
-```
-
-# Extended Example
-
-In the extended example, they start by searching the MotifDb for the DAL80 motif, then assigns a variable to the motif extracted from the JASPAR source and to the ScerTF source.
-
-```{r}
-
-dal80.jaspar <- query(MotifDb,"DAL80")[[5]]
-dal80.scertf <-query(MotifDb,"DAL80")[[6]]
-seqLogo(dal80.jaspar)
-
-dal80.jaspar <- query(MotifDb,"DAL80")[[1]]
-dal80.scertf <-query(MotifDb,"DAL80")[[6]]
-```
-
-How do these two motifs compare to each other? The seqLogo function can once again be used to visualize the regions, but only one graph can be created at a time.
-
-```{r}
-seqLogo(dal80.jaspar)
-```
-
-```{r}
-
-seqLogo(dal80.scertf)
-```
-
-# Stacked Graphs
-
-With some manipulation using the motifStack package, these motifs can be viewed in the same figure.
-
-```{r}
-pfm.dal80.jaspar <- new("pfm", mat=query(MotifDb, "dal80")[[5]], 
-                    name="DAL80-JASPAR")
-
-pfm.dal80.jaspar <- new("pfm", mat=query(MotifDb, "dal80")[[1]], 
+    ```{r}
+    pfm.dal80.jaspar <- new("pfm", mat=query(MotifDb, "dal80")[[5]], 
                         name="DAL80-JASPAR")
 
-pfm.dal80.scertf <- new("pfm", mat=query(MotifDb, "dal80")[[6]], 
-                    name="DAL80-ScerTF")
-plotMotifLogoStack(DNAmotifAlignment(c(pfm.dal80.scertf, pfm.dal80.jaspar)))
-```
+    pfm.dal80.jaspar <- new("pfm", mat=query(MotifDb, "dal80")[[1]], 
+                            name="DAL80-JASPAR")
 
-Of these two, the JASPAR motif has more detail, but the ScerTF motif is more recently published. ScerTF has a reputation for careful yeast-specific curation. The scientists chose to use the ScerTF motif.
+    pfm.dal80.scertf <- new("pfm", mat=query(MotifDb, "dal80")[[6]], 
+                        name="DAL80-ScerTF")
+    plotMotifLogoStack(DNAmotifAlignment(c(pfm.dal80.scertf, pfm.dal80.jaspar)))
+    ```
 
-# Gat1 vs DAL80 
+# Method (The "How")
 
-Georis et al mention that DAL80 "competes with Gat1 for binding" -- suggesting that they would have highly similar motifs. MotifDb has 3 entries for GAT1:
+-   They also use MotifDB and plotMotifLogoStack to compare the three sources for Gat1.
 
-```{r}
-query(MotifDb, "gat1")
-```
+    ```{r}
+    query(MotifDb, "gat1")
 
-# Gat1 vs DAL80 
+    pfm.gat1.jaspar = new("pfm", mat=query(MotifDb, "gat1")[[5]], 
+                           name="GAT1-JASPAR")
+    pfm.gat1.scertf = new("pfm", mat=query(MotifDb, "gat1")[[6]], 
+                           name="GAT1-ScerTF")
+    pfm.gat1.uniprobe = new("pfm", mat=query(MotifDb, "gat1")[[7]], 
+                           name="GAT1-UniPROBE")
+    plotMotifLogoStack(c(pfm.gat1.uniprobe, pfm.gat1.scertf, pfm.gat1.jaspar))
+    ```
 
-We can plot all three together to visualize the differences of the GAT1 motif between different sources.
+-   The transcriptsBy function is used to create a GRangesList to store the genomic locations (the chromosome and the starting index of the nucleic acid) for every known transcript of each gene in the network.
 
-```{r}
-pfm.gat1.jaspar = new("pfm", mat=query(MotifDb, "gat1")[[5]], 
-                       name="GAT1-JASPAR")
-pfm.gat1.scertf = new("pfm", mat=query(MotifDb, "gat1")[[6]], 
-                       name="GAT1-ScerTF")
-pfm.gat1.uniprobe = new("pfm", mat=query(MotifDb, "gat1")[[7]], 
-                       name="GAT1-UniPROBE")
-plotMotifLogoStack(c(pfm.gat1.uniprobe, pfm.gat1.scertf, pfm.gat1.jaspar))
-```
+    ```{r}
+    #| echo: true
+    pfm.dal80.scertf <- query(MotifDb, "dal80")[[6]]
+    pcm.dal80.scertf <- round(100 * pfm.dal80.scertf)
 
-# Gat1 vs DAL80 
+    pfm.gat1.jaspar <- query(MotifDb, "gat1")[[5]]
+    pcm.gat1.jaspar <- round(100 * pfm.gat1.jaspar)
 
-It appears that Georis' claim is correct that DAL80 and GAT1 could compete for binding since the GAT1-JASPAR motif is similar to the DAL80 motif of **GATAA**. However, we can also see that the GAT1-ScerTF and GAT1-UniPROBE motifs differ in length, and are reverse compliments of the **GATAA** motif.
+    pfm.gat1.scertf <- query(MotifDb, "gat1")[[6]]
+    pcm.gat1.scertf <- round(100 * pfm.gat1.scertf)
 
-# Matching Motifs
+    genes <- c("DAL1", "DAL2", "DAL4", "DAL5", "DAL7", "DAL80", "GAP1")
+    orfs <- as.character(mget(genes, org.Sc.sgdCOMMON2ORF))
 
-To match the motifs in the promoter, the following steps must be completed:
+    grl <- transcriptsBy(TxDb.Scerevisiae.UCSC.sacCer3.sgdGene, by="gene") [orfs]
+    ```
 
-1.  Retrieve binding motif in PFM form of the transcription factor
-2.  Retrieve the promoter region for the target sequences
-3.  Identify the matches of the binding motif in the genes' promoter regions
+# Method (The "How")
 
-# Matching Motifs
+-   The getPromoterSeq functions which takes all of the locations of the transcripts, the species, and how much of the upstream and downstream regions needed and provides a list of the promoter sequences.
 
-They used three search motifs: one DAL80 and two GAT1. These motifs must be transformed so they can be matches using the `matchPWM` function. As we saw above, `MotifDb` returns as PFM with columns adding to 1, but `matchPWM` requires a PCM with all integer values. The frequency matrix can be transformed into a count matrix by scaling by a factor of 100 (i.e. converting from decimals to a percent out of 100).
+    ```{r}
+    #| echo: true
+    promoter.seqs <- getPromoterSeq(grl, Scerevisiae, upstream=1000,
+                                    downstream=0)
+    promoter.seqs <- unlist(promoter.seqs)
+    ```
 
-```{r}
-pfm.dal80.scertf <- query(MotifDb, "dal80")[[6]]
-pcm.dal80.scertf <- round(100 * pfm.dal80.scertf)
+-   The matchPWM function takes a single promoter sequence of the unlisted promoter sequences, the position count matrix, and the confidence interval to identify the binding motif in the promoter sequence.
 
-pfm.gat1.jaspar <- query(MotifDb, "gat1")[[5]]
-pcm.gat1.jaspar <- round(100 * pfm.gat1.jaspar)
+    ```{r}
+    dal80.scertf.hits <- sapply(promoter.seqs, function(pseq) 
+                                matchPWM(pcm.dal80.scertf, pseq, min.score="90%"))
+    gat1.scertf.hits  <- sapply(promoter.seqs, function(pseq) 
+                                matchPWM(pcm.gat1.scertf, pseq, min.score="90%"))
+    gat1.jaspar.hits  <- sapply(promoter.seqs, function(pseq) 
+                                matchPWM(pcm.gat1.jaspar, pseq, min.score="90%"))
+    ```
 
-pfm.gat1.scertf <- query(MotifDb, "gat1")[[6]]
-pcm.gat1.scertf <- round(100 * pfm.gat1.scertf)
-```
+# Method (The "How")
 
-<<<<<<< Updated upstream
-![](images/paste-491090A1.png){width="406"}
+-   They finally create a data frame to indicate how many instances the binding motif was found in the promoter sequence of each gene.
 
-# Creating Necessary Lists 
+    ```{r}
+    dal80.scertf <- sapply(dal80.scertf.hits, length)
+    gat1.jaspar  <- sapply(gat1.jaspar.hits,  length)
+    gat1.scertf  <- sapply(gat1.scertf.hits,  length)
 
-Create a list of the seven genes from the DAL80 co-regulated subnetwork (displayed above - taken from [Bioconductor Vignette - generegulation](https://www.bioconductor.org/packages/release/workflows/vignettes/generegulation/inst/doc/generegulation.html#network)). Lookup their systematic names, which will be needed for the `transcriptsBy` function.
-=======
-![](images/paste-491090A1.png){width="406"} #Creating Necessary Lists Create a list of the seven genes from the DAL80 co-regulated subnetwork (displayed above - taken from [Bioconductor Vignette - generegulation](https://www.bioconductor.org/packages/release/workflows/vignettes/generegulation/inst/doc/generegulation.html#network)). Lookup their systematic names, which will be needed for the `transcriptsBy` function.
-=======
-![](images/paste-491090A1.png){width="406"} 
+    tbl.gata     <- data.frame(gene=genes, dal80.scertf, gat1.jaspar, gat1.scertf)
+    tbl.gata
+    ```
 
-# Matching Motifs
->>>>>>> Stashed changes
+# Method (The "Why")
 
-```{r}
-genes <- c("DAL1", "DAL2", "DAL4", "DAL5", "DAL7", "DAL80", "GAP1")
-orfs <- as.character(mget(genes, org.Sc.sgdCOMMON2ORF))
-```
+-   They chose ScerTF for DAL80 because it is known for their "yeast-specific curation"
 
-This step creates a GRangesList, which is a container for storing a collection of GRanges objects - which are containers for storing genomic locations and any annotations associated with the region. In other words, this step creates a collection of the gene names and the "start location (chromosome and base pair) for every known transcript for each gene".
+-   They chose JASPAR and ScerTF for Gat1 because JASPAR has a similar binding motif to DAL80 and, though they don't specify why they chose ScerTF, it can be inferred that they chose it because it was a similar length and contained the reverse compliment of the GATAA motif
 
-```{r}
-grl <- transcriptsBy(TxDb.Scerevisiae.UCSC.sacCer3.sgdGene, by="gene") [orfs]
-```
+-   They used the generegulation package to quickly visualize and identify similar binding motifs in the seven Saccharomyces cerevisiae genes
 
-With this information, `GenomicFeatures::getPromoterSeq` calculates and returns the DNA sequence of the promoter:
-
-```{r}
-promoter.seqs <- getPromoterSeq(grl, Scerevisiae, upstream=1000,
-                                downstream=0)
-```
-
-<<<<<<< Updated upstream
-<<<<<<< HEAD
-# Search for Match
-
-We will next search for a match of the motif to the first of these sequences, the promoter for DAL1. Note that here, and below, we use a 90% "min.score" when we call matchPWM. This high minimum match score seems reasonable given the relative absence of variability in DAL80's PFM:
-=======
-# Search for Match We will next search for a match of the motif to the first of these sequences, the promoter for DAL1. Note that here, and below, we use a 90% "min.score" when we call matchPWM. This high minimum match score seems reasonable given the relative absence of variability in DAL80's PFM:
-=======
-# Search for Match 
-
-We will next search for a match of the motif to the first of these sequences, the promoter for DAL1. Note that here, and below, we use a 90% "min.score" when we call matchPWM. This high minimum match score seems reasonable given the relative absence of variability in DAL80's PFM:
->>>>>>> Stashed changes
-
-```{r}
-#| echo: true
-pfm.dal80.scertf
-print (class(promoter.seqs))
-```
-
-The **GATAA** pattern is a very strong signal in this motif.
-
-# Restructuring 
-
-Note that some restructuring is needed for us to use the results of **getPromoterSeqs** as an argument to **matchPWM**. We call the **getPromoterSeq** method with a GRangesList, which contains a unique set of genomic ranges, representing transcript coordinates, for each of several genes. The corresponding result is a **DNAStringSetList** in which there is one DNAStringSet (essentially a list of DNAStrings) for each gene in the input list. Both of these variables are therefore lists of lists, in which the outer list is named with genes, and the inner lists are per-transcript coordinates or DNA strings.
-
-# Restructuring 
-
-Since we need DNA strings without that overarching by-gene-name structure, we call **unlist** to strip off that structure, leaving us with the desired DNAStringSet:
-
-```{r}
-#| echo: true
-promoter.seqs <- unlist(promoter.seqs)
-print (class(promoter.seqs))
-```
-
-# See Matches 
-
-Once we have the correct format of the sequences, we can then see the matches of the motifs to the sequences.
-
-```{r}
-matchPWM(pcm.dal80.scertf, promoter.seqs[[1]], "90%")
-```
-
-The close proximity of these two GATAA hits suggests that dimeric (similar or identical) DAL80, or some other GATAA-binding dimer, may bind DAL1.
-
-# See Matches 
-
-All of the matches in the promoters of all seven genes to one binding motif may be found at once with this command:
-
-```{r} 
-#| echo: true
-pwm.hits <- sapply(promoter.seqs, 
-                      function(pseq) 
-                         matchPWM(pcm.dal80.scertf, pseq, min.score="90%"))
-```
-
-# Summary
-
-And we can summarize the motif hits for each of the three motifs (dal80.scertf, gat1.jaspar, gat1.scertf) by creating a data.frame of counts, by gene and motif. First, determine the hits:
-
-```{r}
-#| echo: true
-dal80.scertf.hits <- sapply(promoter.seqs, function(pseq) 
-                            matchPWM(pcm.dal80.scertf, pseq, min.score="90%"))
-gat1.scertf.hits  <- sapply(promoter.seqs, function(pseq) 
-                            matchPWM(pcm.gat1.scertf, pseq, min.score="90%"))
-gat1.jaspar.hits  <- sapply(promoter.seqs, function(pseq) 
-                            matchPWM(pcm.gat1.jaspar, pseq, min.score="90%"))
-```
-
-Now count their lengths:
-
-```{r}
-#| echo: true
-dal80.scertf <- sapply(dal80.scertf.hits, length)
-gat1.jaspar  <- sapply(gat1.jaspar.hits,  length)
-gat1.scertf  <- sapply(gat1.scertf.hits,  length)
-```
-
-<<<<<<< Updated upstream
-<<<<<<< HEAD
-# Example Results 
-
-Finally, create a data.frame from this information:
-=======
-# Example Results Finally, create a data.frame from this information:
-=======
-# Example Results 
-
-Finally, create a data.frame from this information:
->>>>>>> Stashed changes
-
-```{r}
-tbl.gata     <- data.frame(gene=genes, dal80.scertf, gat1.jaspar, gat1.scertf)
-tbl.gata
-```
-
-# Example Results
-
-These values indicate the number of occurrences of the motif in each promoter sequence. It is pretty evident that the dal80.scertf motif has more hits than the other two, but why is that? Using the pcm tables which indicate the frequency of the bases (rows) at each position (columns), we can take the number of columns to find the length of each motif.
-
-```{r}
-ncol(pcm.dal80.scertf)
-ncol(pcm.gat1.jaspar)
-ncol(pcm.gat1.scertf)
-```
-
-As we can see, the dal80.scertf motif only has five bases, but the gat1.jaspar motif is longer (8 bases) and more complex. The non-GATAA motif from gat1.scertf has fewer matches, but this may be due to chance, but this could be found by searching the promoters of randomly selected genes for the distribution of the motif.
+-   Included Gat1 as a gene of interest because Georis et al suggested that DAL80 and Gat1 compete for binding sites
 
 # Results
 
-Using the tools of the Bioconductor "generegulation" package, this workflow was able to show, in multiple ways, that both Gat1 and DAL80 have the GATAA motif. This may suggest that they are indeed competing for the binding site, thus repressing Gat1 expression, which in turn represses NCR gene transcription. This exploration also shows that Gat1 has at least two very different binding motifs.
+-   Both Gat1 and DAL80 have the GATAA motif. This may suggest that they are indeed competing.
+
+-   Found and visualized the DNA-binding motif ("GATAA") in all of these co-regulated Nitrogen Catabolite Repression (NCR) genes
+
+-   Extracted the sequence from the promoter regions of the seven yeast genes
 
 # Conclusion
+
+-   The "generegulation" workflow contained multiple new tools that allowed for the exploration of DNA sequences
+
+-   Provides insight into the regulation of cellular processes by identifying the candidate transcription factor binding sites in a sequence and allowing for the comparison of multiple sequences at once
+
+-   Gain a lot of information just from a single graphic (seqLogo)
+
+    -   Tells you not only what the position of each nucleic acid, but also the amount of content at that position and the frequency of the amino or nucleic acid at that position
+
+-   The workflow was kind of challenging to follow along with because some steps were not explained
+
+    -   hard to understand why they did some of the things they did
