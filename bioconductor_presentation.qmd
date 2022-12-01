@@ -211,7 +211,7 @@ plotMotifLogoStack(c(pfm.gat1.uniprobe, pfm.gat1.scertf, pfm.gat1.jaspar))
 
 -   Both Gat1 and DAL80 have the GATAA motif. This may suggest that they are indeed competing.
 
--   Found and visualized the DNA-binding motif ("GATAA") in all of these co-regulated Nitrogen Catabolite Repression (NCR) genes
+-   Found and visualized the DNA-binding motif ("GATAA") in all of these co-regulated genes
 
 -   Extracted the sequence from the promoter regions of the seven yeast genes
 
