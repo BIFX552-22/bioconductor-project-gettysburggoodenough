@@ -5,6 +5,8 @@ format:
   revealjs:
     smaller: true
     scrollable: true
+    fig-height: 4
+    fig-width: 6
 editor: visual
 ---
 
@@ -121,19 +123,25 @@ Note that some of the extracted rows were modified from the source code because 
 
 # Method (The "How")
 
--   They also use MotifDB and plotMotifLogoStack to compare the three sources for Gat1.
+They also use MotifDB and plotMotifLogoStack to compare the three sources for Gat1.
 
-    ```{r}
-    query(MotifDb, "gat1")
+```{r}
+query(MotifDb, "gat1")
+```
 
-    pfm.gat1.jaspar = new("pfm", mat=query(MotifDb, "gat1")[[5]], 
-                           name="GAT1-JASPAR")
-    pfm.gat1.scertf = new("pfm", mat=query(MotifDb, "gat1")[[6]], 
-                           name="GAT1-ScerTF")
-    pfm.gat1.uniprobe = new("pfm", mat=query(MotifDb, "gat1")[[7]], 
-                           name="GAT1-UniPROBE")
-    plotMotifLogoStack(c(pfm.gat1.uniprobe, pfm.gat1.scertf, pfm.gat1.jaspar))
-    ```
+# Method (The "How")
+
+```{r}
+pfm.gat1.jaspar = new("pfm", mat=query(MotifDb, "gat1")[[5]], 
+                       name="GAT1-JASPAR")
+pfm.gat1.scertf = new("pfm", mat=query(MotifDb, "gat1")[[6]], 
+                       name="GAT1-ScerTF")
+pfm.gat1.uniprobe = new("pfm", mat=query(MotifDb, "gat1")[[7]], 
+                       name="GAT1-UniPROBE")
+plotMotifLogoStack(c(pfm.gat1.uniprobe, pfm.gat1.scertf, pfm.gat1.jaspar))
+```
+
+# Method (The "How")
 
 -   The transcriptsBy function is used to create a GRangesList to store the genomic locations (the chromosome and the starting index of the nucleic acid) for every known transcript of each gene in the network.
 
@@ -207,7 +215,7 @@ Note that some of the extracted rows were modified from the source code because 
 
 -   Extracted the sequence from the promoter regions of the seven yeast genes
 
-# Conclusion
+# Conclusion - Skills Learned
 
 -   The "generegulation" workflow contained multiple new tools that allowed for the exploration of DNA sequences
 
@@ -217,6 +225,12 @@ Note that some of the extracted rows were modified from the source code because 
 
     -   Tells you not only what the position of each nucleic acid, but also the amount of content at that position and the frequency of the amino or nucleic acid at that position
 
+# Conclusion - Challenges
+
+-   Data has been updated since workflow was published
+
+    -   Hard to confirm results, had to detour from source code to find correct/matching data
+
 -   The workflow was kind of challenging to follow along with because some steps were not explained
 
-    -   hard to understand why they did some of the things they did
+    -   Hard to understand why they did some of the things they did

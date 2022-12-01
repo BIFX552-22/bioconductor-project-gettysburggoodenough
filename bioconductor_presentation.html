@@ -485,13 +485,13 @@
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a>pfm.dal80.jaspar <span class="ot">&lt;-</span> <span class="fu">query</span>(MotifDb,<span class="st">"DAL80"</span>)[[<span class="dv">1</span>]]</span>
 <span id="cb1-2"><a href="#cb1-2"></a><span class="fu">seqLogo</span>(pfm.dal80.jaspar)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img data-src="bioconductor_presentation_files/figure-revealjs/unnamed-chunk-2-1.png" width="960"></p>
+<p><img data-src="bioconductor_presentation_files/figure-revealjs/unnamed-chunk-2-1.png" width="576"></p>
 </div>
 </div></li>
 <li><p>Then, they used MotifDB and plotMotifLogoStack to visualize multiple motifs and their relationships to one another for DAL80 amongst the JASPAR and ScerTF sources.</p>
 <div class="cell">
 <div class="cell-output-display">
-<p><img data-src="bioconductor_presentation_files/figure-revealjs/unnamed-chunk-3-1.png" width="960"></p>
+<p><img data-src="bioconductor_presentation_files/figure-revealjs/unnamed-chunk-3-1.png" width="576"></p>
 </div>
 </div></li>
 </ul>
@@ -499,8 +499,7 @@
 
 <section id="method-the-how-1" class="title-slide slide level1 center">
 <h1>Method (The “How”)</h1>
-<ul>
-<li><p>They also use MotifDB and plotMotifLogoStack to compare the three sources for Gat1.</p>
+<p>They also use MotifDB and plotMotifLogoStack to compare the three sources for Gat1.</p>
 <div class="cell">
 <div class="cell-output cell-output-stdout">
 <pre><code>MotifDb object of length 7
@@ -523,10 +522,17 @@ Scerevisiae-jaspar2022-GAT1-MA0300.1
 Scerevisiae-ScerTF-GAT1-zhu 
 Scerevisiae-UniPROBE-Gat1.UP00287 </code></pre>
 </div>
-<div class="cell-output-display">
-<p><img data-src="bioconductor_presentation_files/figure-revealjs/unnamed-chunk-4-1.png" width="960"></p>
 </div>
-</div></li>
+</section>
+
+<section id="method-the-how-2" class="title-slide slide level1 center">
+<h1>Method (The “How”)</h1>
+
+<img data-src="bioconductor_presentation_files/figure-revealjs/unnamed-chunk-5-1.png" width="576" class="r-stretch"></section>
+
+<section id="method-the-how-3" class="title-slide slide level1 center">
+<h1>Method (The “How”)</h1>
+<ul>
 <li><p>The transcriptsBy function is used to create a GRangesList to store the genomic locations (the chromosome and the starting index of the nucleic acid) for every known transcript of each gene in the network.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a>pfm.dal80.scertf <span class="ot">&lt;-</span> <span class="fu">query</span>(MotifDb, <span class="st">"dal80"</span>)[[<span class="dv">6</span>]]</span>
@@ -546,7 +552,7 @@ Scerevisiae-UniPROBE-Gat1.UP00287 </code></pre>
 </ul>
 </section>
 
-<section id="method-the-how-2" class="title-slide slide level1 center">
+<section id="method-the-how-4" class="title-slide slide level1 center">
 <h1>Method (The “How”)</h1>
 <ul>
 <li><p>The getPromoterSeq functions which takes all of the locations of the transcripts, the species, and how much of the upstream and downstream regions needed and provides a list of the promoter sequences.</p>
@@ -562,7 +568,7 @@ Scerevisiae-UniPROBE-Gat1.UP00287 </code></pre>
 </ul>
 </section>
 
-<section id="method-the-how-3" class="title-slide slide level1 center">
+<section id="method-the-how-5" class="title-slide slide level1 center">
 <h1>Method (The “How”)</h1>
 <ul>
 <li><p>They finally create a data frame to indicate how many instances the binding motif was found in the promoter sequence of each gene.</p>
@@ -600,8 +606,8 @@ YKR039W.YKR039W  GAP1            5           3           0</code></pre>
 </ul>
 </section>
 
-<section id="conclusion" class="title-slide slide level1 center">
-<h1>Conclusion</h1>
+<section id="conclusion---skills-learned" class="title-slide slide level1 center">
+<h1>Conclusion - Skills Learned</h1>
 <ul>
 <li><p>The “generegulation” workflow contained multiple new tools that allowed for the exploration of DNA sequences</p></li>
 <li><p>Provides insight into the regulation of cellular processes by identifying the candidate transcription factor binding sites in a sequence and allowing for the comparison of multiple sequences at once</p></li>
@@ -609,9 +615,19 @@ YKR039W.YKR039W  GAP1            5           3           0</code></pre>
 <ul>
 <li>Tells you not only what the position of each nucleic acid, but also the amount of content at that position and the frequency of the amino or nucleic acid at that position</li>
 </ul></li>
+</ul>
+</section>
+
+<section id="conclusion---challenges" class="title-slide slide level1 center">
+<h1>Conclusion - Challenges</h1>
+<ul>
+<li><p>Data has been updated since workflow was published</p>
+<ul>
+<li>Hard to confirm results, had to detour from source code to find correct/matching data</li>
+</ul></li>
 <li><p>The workflow was kind of challenging to follow along with because some steps were not explained</p>
 <ul>
-<li>hard to understand why they did some of the things they did</li>
+<li>Hard to understand why they did some of the things they did</li>
 </ul></li>
 </ul>
 <div class="footer footer-default">
